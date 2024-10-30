@@ -24,6 +24,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.get('/computation', (req, res) => {
+  const mathFunction = Math.sqrt;
+  let randomValue = Math.floor(Math.random() * 101);
+
+  if (req.query.x) {
+      const xValue = parseFloat(req.query.x);
+      if (!isNaN(xValue)) {
+          randomValue = xValue;
+      }
+  }
+
+  const result = mathFunction(randomValue);
+  
+  const responseMessage = `${mathFunction.name} applied to ${randomValue} is ${result}`;
+  
+  res.send(responseMessage);
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
